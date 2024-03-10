@@ -21,8 +21,9 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.createFaculty(faculty);
+    public ResponseEntity createFaculty(@RequestBody Faculty faculty) {
+        facultyService.createFaculty(faculty);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}")
@@ -44,8 +45,9 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}")
-    public Faculty deleteFaculty(@PathVariable Long id) {
-        return facultyService.deleteFaculty(id);
+    public ResponseEntity deleteFaculty(@PathVariable Long id) {
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("{colour}")
