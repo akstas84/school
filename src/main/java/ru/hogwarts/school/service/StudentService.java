@@ -1,46 +1,43 @@
 package ru.hogwarts.school.service;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
 
-    Map<Long, Student> students = new HashMap<>();
-    long incrId;
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
 
     public Student createStudent(Student student) {
-        student.setId(++incrId);
-        students.put(incrId, student);
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
-        if (students.containsKey(id)) {
-            return students.get(id);
-        }
-        return null;
+//        return studentRepository.getById(id);
+        return studentRepository.findById(id).get();
     }
 
     public Student editeStudent(Student student) {
-        if (students.containsKey(student.getId())) {
-            students.put(student.getId(), student);
-            return student;
-        }
-        return null;
+        return studentRepository.save(student);
     }
 
-    public Student deleteStudent(long id) {
-        return students.remove(id);
+    public void deleteStudent(long id) {
+        studentRepository.deleteById(id);
     }
 
     public Map<Long, Student> filterStudent(long id) {
-        Map<Long, Student> filteredMap = students.entrySet().stream()
+        Map<Long, Student> filteredMap = studentRepository.findAllAsMapUsingCollection().entrySet().stream()
                 .filter(st -> st.getValue().getAge() == id)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return filteredMap;
