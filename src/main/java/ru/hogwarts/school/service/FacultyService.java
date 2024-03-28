@@ -33,11 +33,20 @@ public class FacultyService {
         facultyRepository.deleteById(id);
     }
 
+    public void findByName(String name) {
+        facultyRepository.findByName(name);
+    }
+
+
     public Map<Long, Faculty> colorFilterFaculty(String colour) {
         Map<Long, Faculty> filteredFaculties = facultyRepository.findAllAsMapUsingCollection().entrySet().stream()
                 .filter(f -> f.getValue().getColor().equals(colour))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return filteredFaculties;
+    }
+
+    public void findByNameOrColor(String str){
+        facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(str);
     }
 
 }

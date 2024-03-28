@@ -24,7 +24,6 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
-//        return studentRepository.getById(id);
         return studentRepository.findById(id).get();
     }
 
@@ -42,4 +41,10 @@ public class StudentService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return filteredMap;
     }
+
+
+    public void findByAgeBetween(int min, int max){
+        studentRepository.findByAgeBetween(min, max);
+    }
+
 }
